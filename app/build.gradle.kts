@@ -83,7 +83,7 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     //extended icons
     implementation(libs.androidx.material.icons.extended.android)
-    //splashscreen
+    //splash screen dependency
     implementation(libs.androidx.core.splashscreen)
 
 

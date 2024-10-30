@@ -30,6 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -82,7 +83,8 @@ fun AddNotesScreen(
                     onValueChange = {noteTitle.value = it},
                     maxLines = 1,
                     keyboardOptions = KeyboardOptions.Default.copy(
-                        imeAction = ImeAction.Next
+                        imeAction = ImeAction.Next,
+                        capitalization = KeyboardCapitalization.Sentences
                     ),
                     keyboardActions = KeyboardActions(
                         onNext = {
@@ -120,7 +122,9 @@ fun AddNotesScreen(
                     onValueChange = {noteDescription.value = it},
                     maxLines = 1,
                     keyboardOptions = KeyboardOptions.Default.copy(
-                        imeAction = ImeAction.Done
+                        imeAction = ImeAction.Done,
+                        capitalization = KeyboardCapitalization.Sentences
+
                                             ),
                     placeholder = {
                         Text(text = stringResource(R.string.note_content_placeholder)+"...",
