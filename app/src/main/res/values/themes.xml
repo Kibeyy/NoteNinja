@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.MySplashScreen" parent="Theme.NoteNinja">
+        <item name="windowSplashScreenBackground">@color/tertiary</item>
+
+        <item name="windowSplashScreenAnimationDuration">1000</item>
+        <item name="postSplashScreenTheme">@style/Theme.NoteNinja</item>
+    </style>
+
+    <style name="Theme.NoteNinja" parent="android:Theme.Material.Light.NoActionBar" />
+</resources>

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">NoteNinja</string>
+    <string name="search_note">Search note</string>
+    <string name="topAppBarTitle">NOTE_NINJA</string>
+    <string name="notetitle_placeholder">Title</string>
+    <string name="note_content_placeholder">Note content</string>
+    <string name="save_note_changes">SAVE CHANGES</string>
+</resources>
