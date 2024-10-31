@@ -21,10 +21,7 @@ class NotesViewModel @Inject constructor(private val noteRepository: NoteReposit
     private var _notesList = MutableStateFlow<List<NoteEntity>>(emptyList())
     val notesList = _notesList.asStateFlow()//.asLiveData()
 
-    val note:NoteEntity = NoteEntity(
-        noteTitle = "",
-        noteDescription = ""
-    )
+
 
     init {
         // Collect notes when ViewModel is initialized

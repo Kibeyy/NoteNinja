@@ -1,6 +1,7 @@
 package com.example.noteninja.model
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -29,6 +30,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,10 +49,13 @@ fun NoteItem(
     note: NoteEntity,
     notesViewModel: NotesViewModel = hiltViewModel()
 ){
+
+    val context = LocalContext.current.applicationContext
     val delete = SwipeAction(
         onSwipe = {
             Log.d("MainActivity","Item deleted")
             notesViewModel.deleteNote(note)
+            Toast.makeText(context,"Note deleted!",Toast.LENGTH_SHORT).show()
 
 
         },
@@ -79,7 +84,7 @@ fun NoteItem(
     ) {
         SwipeableActionsBox(
             startActions = listOf(delete),
-            endActions = listOf(delete),
+            endActions = listOf(edit),
             swipeThreshold = 120.dp,
             modifier = Modifier.clip(RoundedCornerShape(20.dp))
         ) {
@@ -92,7 +97,7 @@ fun NoteItem(
                         color = MaterialTheme.colorScheme.tertiary
                     )
                     .clip(RoundedCornerShape(20.dp))
-                    .padding(all = 20.dp)
+                    .padding(all = 15.dp)
                     .fillMaxWidth()
 
 
@@ -110,11 +115,17 @@ fun NoteItem(
                         fontSize = 18.sp,
                         color = MaterialTheme.colorScheme.onSurface
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(12.dp))
                     Text(text = note.noteDescription,
                         color = MaterialTheme.colorScheme.onSurface,
                         fontFamily = FontFamily.Monospace,
                     )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(text = note.timeStamp,
+                        fontWeight = FontWeight.Light,
+                        fontSize = 13.sp,
+                        color = MaterialTheme.colorScheme.onSurface
+                        )
                 }
                 Spacer(modifier = Modifier.width(20.dp))
                 IconButton(

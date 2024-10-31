@@ -151,7 +151,9 @@ fun AddNotesScreen(
                         ){
                             val note = NoteEntity(
                                 noteTitle = noteTitle.value,
-                                noteDescription = noteDescription.value
+                                noteDescription = noteDescription.value,
+                                timeStamp = formattedDateTime.toString()
+
                             )
                             notesViewModel.insertNote(note)
                             noteTitle.value = ""
