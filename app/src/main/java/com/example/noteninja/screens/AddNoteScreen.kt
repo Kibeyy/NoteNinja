@@ -1,6 +1,5 @@
 package com.example.noteninja.screens
 
-
 import android.annotation.SuppressLint
 import android.os.Build
 import android.widget.Toast
@@ -23,7 +22,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
@@ -32,11 +30,9 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.noteninja.R
 import com.example.noteninja.components.AddNoteTopBar
@@ -50,22 +46,21 @@ import java.time.format.DateTimeFormatter
 @RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun EditNotesScreen(
+fun AddNotesScreen(
     navController: NavController,
-    notesViewModel: NotesViewModel = hiltViewModel(),
-    noteToEdit:NoteEntity
+    notesViewModel: NotesViewModel = hiltViewModel()
 ){
     val currentDateTime = LocalDateTime.now()
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss") // Customize format as needed
     val formattedDateTime = currentDateTime.format(formatter)
     val focusManager = LocalFocusManager.current
     val context = LocalContext.current.applicationContext
-    val editNoteTitle = remember{
-        mutableStateOf(noteToEdit.noteTitle)
+    val noteTitle = remember{
+        mutableStateOf("")
     }
 
-    val editedNoteDescription = remember{
-        mutableStateOf(noteToEdit.noteDescription)
+    val noteDescription = remember{
+        mutableStateOf("")
     }
 
     Scaffold(
@@ -81,8 +76,8 @@ fun EditNotesScreen(
                     .fillMaxSize()
             ) {
                 TextField(
-                    value = editNoteTitle.value,
-                    onValueChange = {editNoteTitle.value = it},
+                    value = noteTitle.value,
+                    onValueChange = {noteTitle.value = it},
                     maxLines = 1,
                     keyboardOptions = KeyboardOptions.Default.copy(
                         imeAction = ImeAction.Next,
@@ -98,12 +93,12 @@ fun EditNotesScreen(
                             fontFamily = FontFamily.Monospace,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold
-                        )
-                    },
+                            )
+                                  },
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = Color.Transparent,
                         unfocusedContainerColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent, 
                         unfocusedIndicatorColor = Color.Transparent,
                         cursorColor = PrimaryColor
 
@@ -120,14 +115,14 @@ fun EditNotesScreen(
                 Spacer(modifier = Modifier.height(10.dp))
                 //text field for adding notes
                 TextField(
-                    value = editedNoteDescription.value,
-                    onValueChange = {editedNoteDescription.value = it},
+                    value = noteDescription.value,
+                    onValueChange = {noteDescription.value = it},
                     maxLines = 1,
                     keyboardOptions = KeyboardOptions.Default.copy(
                         imeAction = ImeAction.Done,
                         capitalization = KeyboardCapitalization.Sentences
 
-                    ),
+                                            ),
                     placeholder = {
                         Text(text = stringResource(R.string.note_content_placeholder)+"...",
                             fontFamily = FontFamily.Monospace,
@@ -148,19 +143,25 @@ fun EditNotesScreen(
                 //button to save the changes
                 SaveChangesButton(
                     onClick = {
-                        if (editedNoteDescription.value.isNotEmpty()) {
-                            val updatedNote = noteToEdit.copy( // Use copy to create an updated note
-                                noteTitle = editNoteTitle.value,
-                                noteDescription = editedNoteDescription.value,
-                                timeStamp = formattedDateTime.toString() // Update timestamp if needed
+                        if(
+                            noteDescription.value.isNotEmpty()
+                        ){
+                            val note = NoteEntity(
+                                noteTitle = noteTitle.value,
+                                noteDescription = noteDescription.value,
+                                timeStamp = formattedDateTime.toString()
+
                             )
-                            notesViewModel.updateNote(updatedNote) // Update the note in your ViewModel
+                            notesViewModel.insertNote(note)
+                            noteTitle.value = ""
+                            noteDescription.value = ""
                             navController.navigate("homescreen")
-                        } else {
-                            Toast.makeText(context, "Note content cannot be empty!", Toast.LENGTH_SHORT).show()
+                        }else{
+                            Toast.makeText(context,"Note content cannot be empty!",Toast.LENGTH_SHORT).show()
+
                         }
-                    }
-                )
+
+                })
 
 
 

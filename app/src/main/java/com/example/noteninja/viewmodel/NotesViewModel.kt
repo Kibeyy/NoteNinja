@@ -57,6 +57,11 @@ class NotesViewModel @Inject constructor(private val noteRepository: NoteReposit
         }
     }
 
+    fun getNoteById(noteId: Int): NoteEntity? {
+        return notesList.value.find { it.noteId == noteId } // This assumes notesList is a LiveData or StateFlow
+    }
+
+
     //suspend fun getAllNotes(): LiveData<List<NoteEntity>> = noteRepository.getAllNotes().asLiveData()
 
 }

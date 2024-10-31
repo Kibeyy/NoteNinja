@@ -37,6 +37,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.noteninja.room.NoteEntity
 import com.example.noteninja.ui.theme.NoteNinjaTheme
 import com.example.noteninja.viewmodel.NotesViewModel
@@ -47,7 +48,8 @@ import me.saket.swipe.SwipeableActionsBox
 @Composable
 fun NoteItem(
     note: NoteEntity,
-    notesViewModel: NotesViewModel = hiltViewModel()
+    notesViewModel: NotesViewModel = hiltViewModel(),
+    navController : NavController
 ){
 
     val context = LocalContext.current.applicationContext
@@ -67,6 +69,7 @@ fun NoteItem(
     val edit = SwipeAction(
         onSwipe = {
             Log.d("MainActivity","Item edited")
+            navController.navigate("editNote/${note.noteId}")
 
         },
         icon = {

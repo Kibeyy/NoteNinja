@@ -24,6 +24,10 @@ interface NoteDao {
     @Query("SELECT * FROM notes_tbl")
     fun getAllNotes(): kotlinx.coroutines.flow.Flow<List<NoteEntity>>
 
+    @Query("SELECT * FROM notes_tbl WHERE noteId = :id LIMIT 1")
+    suspend fun getNoteById(id: Int): NoteEntity?
+
+
 
 
 }

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -13,26 +12,18 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -42,12 +33,11 @@ import com.example.noteninja.components.TopBar
 import com.example.noteninja.model.NoteItem
 import com.example.noteninja.room.NoteEntity
 import com.example.noteninja.screens.AddNotesScreen
+import com.example.noteninja.screens.EditNotesScreen
 import com.example.noteninja.ui.theme.LinkColor
 import com.example.noteninja.ui.theme.NoteNinjaTheme
 import com.example.noteninja.viewmodel.NotesViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import me.saket.swipe.SwipeAction
-import me.saket.swipe.SwipeableActionsBox
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -63,6 +53,19 @@ class MainActivity : ComponentActivity() {
                 NavHost(navController = navController, startDestination = "homescreen") {
                     composable("homescreen") { HomeScreen(navController = navController) }
                     composable("addnotescreen") { AddNotesScreen(navController = navController) }
+                    composable("editNote/{noteId}") { backStackEntry ->
+                        val noteId = backStackEntry.arguments?.getString("noteId")?.toInt() ?: -1
+                        val notesViewModel: NotesViewModel = hiltViewModel()
+                        val noteToEdit = notesViewModel.getNoteById(noteId)
+
+                        // Check if noteToEdit is null before navigating
+                        if (noteToEdit != null) {
+                            EditNotesScreen(navController, noteToEdit = noteToEdit)
+                        } else {
+                            Log.e("MainActivity", "Note not found with id: $noteId")
+                            // Handle the case where the note is not found
+                        }
+                    }
                 }
             }
         }
@@ -77,8 +80,6 @@ fun HomeScreen(
     navController: NavController
 ) {
     val notes = notesViewModel.notesList.collectAsState().value
-
-
 
     Scaffold(
         topBar = { TopBar() }
@@ -96,11 +97,11 @@ fun HomeScreen(
                     if (notes.isNotEmpty()) {
                         LazyColumn {
                             items(notes) { item ->
-
-                                   NoteItem(
-                                       note = item,  // Pass each item directly to NoteItem
-                                       notesViewModel = notesViewModel // Provide ViewModel for delete functionality
-                                   )
+                                NoteItem(
+                                    note = item,
+                                    notesViewModel = notesViewModel,
+                                    navController = navController // Pass navController to NoteItem
+                                )
 
                                 Spacer(modifier = Modifier.height(20.dp))
                             }
