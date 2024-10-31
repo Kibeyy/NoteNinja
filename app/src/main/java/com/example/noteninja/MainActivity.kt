@@ -3,6 +3,7 @@ package com.example.noteninja
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,6 +12,11 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -20,6 +26,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -38,6 +46,8 @@ import com.example.noteninja.ui.theme.LinkColor
 import com.example.noteninja.ui.theme.NoteNinjaTheme
 import com.example.noteninja.viewmodel.NotesViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import me.saket.swipe.SwipeAction
+import me.saket.swipe.SwipeableActionsBox
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -69,6 +79,7 @@ fun HomeScreen(
     val notes = notesViewModel.notesList.collectAsState().value
 
 
+
     Scaffold(
         topBar = { TopBar() }
     ) { paddingValues ->
@@ -85,10 +96,12 @@ fun HomeScreen(
                     if (notes.isNotEmpty()) {
                         LazyColumn {
                             items(notes) { item ->
-                                NoteItem(
-                                    note = item,  // Pass each item directly to NoteItem
-                                    notesViewModel = notesViewModel // Provide ViewModel for delete functionality
-                                )
+
+                                   NoteItem(
+                                       note = item,  // Pass each item directly to NoteItem
+                                       notesViewModel = notesViewModel // Provide ViewModel for delete functionality
+                                   )
+
                                 Spacer(modifier = Modifier.height(20.dp))
                             }
                         }

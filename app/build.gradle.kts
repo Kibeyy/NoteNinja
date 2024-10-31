@@ -85,6 +85,8 @@ dependencies {
     implementation(libs.androidx.material.icons.extended.android)
     //splash screen dependency
     implementation(libs.androidx.core.splashscreen)
+    //swipe to perform action dependency
+    implementation("me.saket.swipe:swipe:1.0.0")
 
 
 
