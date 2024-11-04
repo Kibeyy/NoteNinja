@@ -18,7 +18,7 @@ import com.example.noteninja.R
 
 
 @Composable
-fun SaveChangesButton(onClick:() -> Unit){
+fun SaveChangesButton(onClick:() -> Unit,label:String){
     Button(
         onClick = { /*TODO*/onClick() },
         modifier = Modifier.fillMaxWidth(),
@@ -27,7 +27,7 @@ fun SaveChangesButton(onClick:() -> Unit){
             containerColor = MaterialTheme.colorScheme.background
         )
         ) {
-        Text(text = stringResource(R.string.save_note_changes),
+        Text(text = label,
             color = MaterialTheme.colorScheme.onSurface,
             letterSpacing = 2.sp,
             fontFamily = FontFamily.Monospace,

@@ -36,9 +36,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.graphics.toColor
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.noteninja.room.NoteEntity
+
+import com.example.noteninja.room.toColorr
 import com.example.noteninja.ui.theme.NoteNinjaTheme
 import com.example.noteninja.viewmodel.NotesViewModel
 import me.saket.swipe.SwipeAction
@@ -89,16 +92,17 @@ fun NoteItem(
             startActions = listOf(delete),
             endActions = listOf(edit),
             swipeThreshold = 120.dp,
-            modifier = Modifier.clip(RoundedCornerShape(20.dp))
+            modifier = Modifier
+                .clip(RoundedCornerShape(20.dp))
+
         ) {
             Row(
 
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .background(
-                        color = MaterialTheme.colorScheme.tertiary
-                    )
+                    //i changed color of the row here
+                    .background(color = note.noteColor.toColorr().copy(alpha = .5f))
                     .clip(RoundedCornerShape(20.dp))
                     .padding(all = 15.dp)
                     .fillMaxWidth()
@@ -116,11 +120,13 @@ fun NoteItem(
                         fontWeight = FontWeight.ExtraBold,
                         fontFamily = FontFamily.Monospace,
                         fontSize = 18.sp,
-                        color = MaterialTheme.colorScheme.onSurface
+                        color = Color.White
+                        //MaterialTheme.colorScheme.onSurface
                     )
                     Spacer(modifier = Modifier.height(12.dp))
                     Text(text = note.noteDescription,
-                        color = MaterialTheme.colorScheme.onSurface,
+                        color = Color.White,
+                        //MaterialTheme.colorScheme.onSurface,
                         fontFamily = FontFamily.Monospace,
                     )
                     Spacer(modifier = Modifier.height(2.dp))
@@ -134,6 +140,7 @@ fun NoteItem(
                 IconButton(
                     onClick = { /*TO delete note here*/
                         notesViewModel.deleteNote(note)
+                        Toast.makeText(context,"Note deleted!",Toast.LENGTH_SHORT).show()
 
                     },
                     modifier = Modifier

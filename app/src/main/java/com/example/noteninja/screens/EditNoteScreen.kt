@@ -27,6 +27,7 @@ import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -39,8 +40,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.noteninja.R
-import com.example.noteninja.components.AddNoteTopBar
 import com.example.noteninja.components.SaveChangesButton
+import com.example.noteninja.components.updateNoteTopBar
 import com.example.noteninja.room.NoteEntity
 import com.example.noteninja.ui.theme.PrimaryColor
 import com.example.noteninja.viewmodel.NotesViewModel
@@ -69,7 +70,7 @@ fun EditNotesScreen(
     }
 
     Scaffold(
-        topBar = { AddNoteTopBar(navController = navController)}
+        topBar = { updateNoteTopBar(navController = navController)}
     ) {paddingValues ->
         Surface(
             modifier = Modifier
@@ -96,7 +97,7 @@ fun EditNotesScreen(
                     placeholder = {
                         Text(text = stringResource(R.string.notetitle_placeholder),
                             fontFamily = FontFamily.Monospace,
-                            fontSize = 16.sp,
+                            fontSize = 24.sp,
                             fontWeight = FontWeight.Bold
                         )
                     },
@@ -131,7 +132,7 @@ fun EditNotesScreen(
                     placeholder = {
                         Text(text = stringResource(R.string.note_content_placeholder)+"...",
                             fontFamily = FontFamily.Monospace,
-                            fontSize = 24.sp,
+                            fontSize = 16.sp,
                             fontWeight = FontWeight.Bold
                         )
                     },
@@ -139,7 +140,8 @@ fun EditNotesScreen(
                         focusedContainerColor = Color.Transparent,
                         unfocusedContainerColor = Color.Transparent,
                         focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent
+                        unfocusedIndicatorColor = Color.Transparent,
+                        cursorColor = PrimaryColor
 
                     ),
                     modifier = Modifier.fillMaxWidth()
@@ -147,6 +149,7 @@ fun EditNotesScreen(
                 Spacer(modifier = Modifier.height(400.dp))
                 //button to save the changes
                 SaveChangesButton(
+                    label = stringResource(R.string.update_note),
                     onClick = {
                         if (editedNoteDescription.value.isNotEmpty()) {
                             val updatedNote = noteToEdit.copy( // Use copy to create an updated note

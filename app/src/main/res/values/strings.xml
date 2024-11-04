@@ -5,4 +5,6 @@
     <string name="notetitle_placeholder">Title</string>
     <string name="note_content_placeholder">Note content</string>
     <string name="save_note_changes">SAVE CHANGES</string>
+    <string name="update_note">UPDATE NOTE</string>
+    <string name="add_note">ADD NOTE</string>
 </resources>

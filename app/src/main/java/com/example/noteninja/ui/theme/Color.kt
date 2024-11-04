@@ -12,3 +12,5 @@ val Pink40 = Color(0xFF7D5260)
 //my colors
 val LinkColor = Color(0xFF007BFF)
 val PrimaryColor = Color(0xFF00C1B4)
+val Purple = Color(0xFF9C27B0)
+val Pink = Color(0xFFE90E58)

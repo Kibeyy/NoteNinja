@@ -1,5 +1,9 @@
 package com.example.noteninja.viewmodel
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
@@ -20,6 +24,15 @@ class NotesViewModel @Inject constructor(private val noteRepository: NoteReposit
 
     private var _notesList = MutableStateFlow<List<NoteEntity>>(emptyList())
     val notesList = _notesList.asStateFlow()//.asLiveData()
+
+    var selectedColor by mutableStateOf(Color.Gray)
+
+    fun updateNoteColor(color: Color){
+        selectedColor = color
+
+    }
+
+
 
 
 
