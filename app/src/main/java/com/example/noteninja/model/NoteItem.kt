@@ -136,22 +136,22 @@ fun NoteItem(
                         color = MaterialTheme.colorScheme.onSurface
                         )
                 }
-                Spacer(modifier = Modifier.width(20.dp))
-                IconButton(
-                    onClick = { /*TO delete note here*/
-                        notesViewModel.deleteNote(note)
-                        Toast.makeText(context,"Note deleted!",Toast.LENGTH_SHORT).show()
-
-                    },
-                    modifier = Modifier
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Delete,
-                        contentDescription = "delete note",
-                        tint = MaterialTheme.colorScheme.onSurface
-                    )
-
-                }
+//                Spacer(modifier = Modifier.width(20.dp))
+//                IconButton(
+//                    onClick = { /*TO delete note here*/
+//                        notesViewModel.deleteNote(note)
+//                        Toast.makeText(context,"Note deleted!",Toast.LENGTH_SHORT).show()
+//
+//                    },
+//                    modifier = Modifier
+//                ) {
+//                    Icon(
+//                        imageVector = Icons.Default.Delete,
+//                        contentDescription = "delete note",
+//                        tint = MaterialTheme.colorScheme.onSurface
+//                    )
+//
+//                }
 
 
             }

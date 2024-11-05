@@ -2,6 +2,7 @@ package com.example.noteninja.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Sort
+import androidx.compose.material.icons.filled.ViewHeadline
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -14,11 +15,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.noteninja.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(){
+fun TopBar(navController: NavController){
     TopAppBar(
         title = { Text(text = stringResource(R.string.topAppBarTitle),
             color = MaterialTheme.colorScheme.onSurface,
@@ -27,9 +29,9 @@ fun TopBar(){
             letterSpacing = 3.sp
         ) },
         actions = {
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = { /*TODO*/navController.navigate("settingsscreen") }) {
                 Icon(
-                    imageVector = Icons.Default.Sort,
+                    imageVector = Icons.Default.ViewHeadline,
                     contentDescription = "sort" )
             }
         },

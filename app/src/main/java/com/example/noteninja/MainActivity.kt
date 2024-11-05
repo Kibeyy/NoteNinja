@@ -34,6 +34,7 @@ import com.example.noteninja.model.NoteItem
 import com.example.noteninja.room.NoteEntity
 import com.example.noteninja.screens.AddNotesScreen
 import com.example.noteninja.screens.EditNotesScreen
+import com.example.noteninja.screens.SettingsScreen
 import com.example.noteninja.ui.theme.LinkColor
 import com.example.noteninja.ui.theme.NoteNinjaTheme
 import com.example.noteninja.viewmodel.NotesViewModel
@@ -53,6 +54,7 @@ class MainActivity : ComponentActivity() {
                 NavHost(navController = navController, startDestination = "homescreen") {
                     composable("homescreen") { HomeScreen(navController = navController) }
                     composable("addnotescreen") { AddNotesScreen(navController = navController) }
+                    composable("settingsscreen") { SettingsScreen(navController = navController) }
                     composable("editNote/{noteId}") { backStackEntry ->
                         val noteId = backStackEntry.arguments?.getString("noteId")?.toInt() ?: -1
                         val notesViewModel: NotesViewModel = hiltViewModel()
@@ -82,7 +84,7 @@ fun HomeScreen(
     val notes = notesViewModel.notesList.collectAsState().value
 
     Scaffold(
-        topBar = { TopBar() }
+        topBar = { TopBar(navController = navController) }
     ) { paddingValues ->
         Surface {
             Box(

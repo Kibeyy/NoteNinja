@@ -10,4 +10,5 @@
     //my colors
     <color name="primary_color">#00C1B4</color>
     <color name="tertiary">#A4E5E0</color>
+    <color name="grey">#676464</color>
 </resources>

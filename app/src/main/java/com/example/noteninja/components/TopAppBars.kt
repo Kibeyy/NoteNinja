@@ -15,6 +15,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
+import com.example.noteninja.ui.theme.NoteNinjaTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -50,4 +51,26 @@ fun updateNoteTopBar(navController: NavController){
 
         }
     )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SettingsTopBar(navController: NavController){
+    NoteNinjaTheme {
+        TopAppBar(
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primary
+            ),
+            navigationIcon = {
+                IconButton(
+                    onClick = { /*to navigate back to homepage*/navController.navigate("homescreen") }
+                ) {
+                    Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "back button")
+                }
+            },
+            title = {
+                Text(text = "Settings", fontWeight = FontWeight.Bold, fontFamily = FontFamily.Monospace)
+            }
+        )
+    }
 }
