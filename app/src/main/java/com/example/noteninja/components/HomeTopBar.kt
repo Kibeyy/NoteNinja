@@ -1,6 +1,7 @@
 package com.example.noteninja.components
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.QuestionMark
 import androidx.compose.material.icons.filled.Sort
 import androidx.compose.material.icons.filled.ViewHeadline
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -31,7 +32,7 @@ fun TopBar(navController: NavController){
         actions = {
             IconButton(onClick = { /*TODO*/navController.navigate("settingsscreen") }) {
                 Icon(
-                    imageVector = Icons.Default.ViewHeadline,
+                    imageVector = Icons.Default.QuestionMark,
                     contentDescription = "sort" )
             }
         },

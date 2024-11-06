@@ -18,3 +18,4 @@ data class NoteEntity (
 fun Int.toColorr(): Color {
     return Color(this)
 }
+

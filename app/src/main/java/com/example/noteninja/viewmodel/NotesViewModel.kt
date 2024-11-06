@@ -1,10 +1,12 @@
 package com.example.noteninja.viewmodel
 
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
@@ -27,6 +29,15 @@ class NotesViewModel @Inject constructor(private val noteRepository: NoteReposit
 
     var selectedColor by mutableStateOf(Color.Gray)
 
+    var selectedIcon = mutableStateOf(0)
+
+    val selectedTab = mutableStateOf(0)
+//    fun checkSelectedIconIndex() {
+//        if (selectedIcon.value == null) {
+//            selectedIcon.value = 0
+//        }
+//    }
+
     fun updateNoteColor(color: Color){
         selectedColor = color
 
@@ -37,6 +48,8 @@ class NotesViewModel @Inject constructor(private val noteRepository: NoteReposit
 
 
     init {
+//        checkSelectedIconIndex()
+
         // Collect notes when ViewModel is initialized
         viewModelScope.launch(Dispatchers.IO) {
             noteRepository.getAllNotes()

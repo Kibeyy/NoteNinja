@@ -1,4 +1,4 @@
-package com.example.noteninja.screens
+package com.example.noteninja.screens.notesscreens
 
 import android.annotation.SuppressLint
 import android.os.Build

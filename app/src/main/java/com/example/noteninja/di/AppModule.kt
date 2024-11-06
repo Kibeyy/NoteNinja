@@ -3,7 +3,7 @@ package com.example.noteninja.di
 import android.content.Context
 import androidx.room.Room
 import com.example.noteninja.room.NoteDao
-import com.example.noteninja.room.NoteDatabase
+import com.example.noteninja.room.AppDatabase
 import com.example.noteninja.room.NoteRepository
 import com.example.noteninja.viewmodel.NotesViewModel
 import dagger.Module
@@ -17,9 +17,10 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
+    //provisions for the notes
     @Provides
     @Singleton
-    fun provideNoteDao(noteDatabase: NoteDatabase) = noteDatabase.noteDao()
+    fun provideNoteDao(noteDatabase: AppDatabase) = noteDatabase.noteDao()
 
     @Singleton
     @Provides
@@ -29,13 +30,20 @@ object AppModule {
     @Provides
     fun provideNoteViewModel(noteRepository: NoteRepository) = NotesViewModel(noteRepository)
 
+    //provisions for the todos
+
+    @Singleton
+    @Provides
+    fun provideTodoDao(noteDatabase: AppDatabase) = noteDatabase.todoDao()
+
+
     @Singleton
     @Provides
     fun provideAppDatabase(
         @ApplicationContext context: Context
-    ): NoteDatabase = Room.databaseBuilder(
+    ): AppDatabase = Room.databaseBuilder(
         context,
-        NoteDatabase::class.java,
+        AppDatabase::class.java,
         "User_db",
     ).fallbackToDestructiveMigration()
         .build()

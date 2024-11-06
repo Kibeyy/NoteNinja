@@ -11,13 +11,16 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -28,17 +31,22 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.noteninja.components.BottomNavigation
 import com.example.noteninja.components.SaveChangesButton
 import com.example.noteninja.components.TopBar
+import com.example.noteninja.constants.Hometabs
 import com.example.noteninja.model.NoteItem
-import com.example.noteninja.room.NoteEntity
-import com.example.noteninja.screens.AddNotesScreen
-import com.example.noteninja.screens.EditNotesScreen
-import com.example.noteninja.screens.SettingsScreen
+import com.example.noteninja.screens.notesscreens.AddNotesScreen
+import com.example.noteninja.screens.notesscreens.EditNotesScreen
+import com.example.noteninja.screens.notesscreens.Notesscreen
+import com.example.noteninja.screens.notesscreens.SettingsScreen
+import com.example.noteninja.screens.todoscreens.NotesScreen
+import com.example.noteninja.screens.todoscreens.TodoScreen
 import com.example.noteninja.ui.theme.LinkColor
 import com.example.noteninja.ui.theme.NoteNinjaTheme
 import com.example.noteninja.viewmodel.NotesViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -53,6 +61,7 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 NavHost(navController = navController, startDestination = "homescreen") {
                     composable("homescreen") { HomeScreen(navController = navController) }
+                    //composable("todoscreen") { TodoScreen(navController = navController) }
                     composable("addnotescreen") { AddNotesScreen(navController = navController) }
                     composable("settingsscreen") { SettingsScreen(navController = navController) }
                     composable("editNote/{noteId}") { backStackEntry ->
@@ -82,69 +91,18 @@ fun HomeScreen(
     navController: NavController
 ) {
     val notes = notesViewModel.notesList.collectAsState().value
+    val selectedTab = notesViewModel.selectedTab.value
 
     Scaffold(
-        topBar = { TopBar(navController = navController) }
+        topBar = { TopBar(navController = navController) },
+        bottomBar = { BottomNavigation( notesViewModel =  notesViewModel)}
     ) { paddingValues ->
-        Surface {
-            Box(
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .fillMaxSize()
-            ) {
-                Column(
-                    modifier = Modifier
-                        .padding(start = 20.dp, end = 20.dp, top = 30.dp)
-                ) {
-                    if (notes.isNotEmpty()) {
-                        LazyColumn {
-                            items(notes) { item ->
-                                NoteItem(
-                                    note = item,
-                                    notesViewModel = notesViewModel,
-                                    navController = navController // Pass navController to NoteItem
-                                )
 
-                                Spacer(modifier = Modifier.height(20.dp))
-                            }
-                        }
-                    } else {
-                        Column(
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier.fillMaxSize()
-                        ) {
-                            Text(
-                                text = "No notes to display!",
-                                color = MaterialTheme.colorScheme.onSurface,
-                                fontSize = 20.sp,
-                                fontFamily = FontFamily.Monospace,
-                                fontWeight = FontWeight.Bold,
-                                letterSpacing = 3.sp
-                            )
-                            Spacer(modifier = Modifier.height(10.dp))
-                            TextButton(onClick = {
-                                navController.navigate("addnotescreen")
-                            }) {
-                                Text(
-                                    text = "Click here to add notes.",
-                                    color = LinkColor,
-                                    fontSize = 18.sp,
-                                    fontFamily = FontFamily.Monospace
-                                )
-                            }
-                        }
-                    }
-                }
-
-                SaveChangesButton(
-                    onClick = { navController.navigate("addnotescreen") },
-                    modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .padding(bottom = 40.dp, end = 20.dp)
-                        .size(70.dp)
-                )
-            }
+        when (selectedTab) {
+            0 -> NotesScreen(modifier = Modifier.padding(paddingValues).fillMaxSize(), navController = navController)
+            1 -> TodoScreen(modifier = Modifier.padding(paddingValues),navController = navController)
         }
+
     }
 }
+
